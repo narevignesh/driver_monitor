@@ -10,6 +10,7 @@ A lightweight, real-time driver monitoring application built with **Streamlit**,
 - **Head Pose Estimation**: Identifies when the driver is looking away from the road.
 - **Live Analysis Dashboard**: Real-time line charts visualize EAR and MAR trends.
 - **Dynamic Calibration**: Adjust sensitivity thresholds directly in the UI.
+- **Non-Blinking Camera Loop**: High-performance caching ensures smooth transitions.
 - **Professional 2-Column UI**: Designed for easy monitoring and telemetry reading.
 
 ---
@@ -108,11 +109,15 @@ The system uses specific mathematical thresholds to determine "Irregular Behavio
     - **Sensitive (0.6):** Might catch talking or singing.
     - **Strict (0.8+):** Only catches very wide yawning.
 
-### Head Pose (Distraction)
-- **Logic**: Calculates Yaw (side-side) and Pitch (up-down) angles.
-- **Trigger**: "Distracted" status appears if:
-    - **Yaw > 35°** (Looking far left or right).
     - **Pitch > 25°** (Looking far up or down at a phone).
+
+---
+
+## ⚡ Performance & Diagnostics
+
+- **Flicker-Free Monitoring**: The system utilizes `@st.cache_resource` to maintain a "hot" connection to the camera hardware. This eliminates black-screen blinks when updating settings or resetting alarms.
+- **Diagnostic Tool**: A `debug_mp.py` script is included to verify MediaPipe landmark connectivity and console values without the Streamlit UI.
+- **Memory Optimized**: The app includes automatic session-state cleanup and frame-buffer management for long-term stability.
 
 ---
 
