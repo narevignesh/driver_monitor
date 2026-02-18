@@ -17,9 +17,9 @@ RIGHT_EYE_IDX = [362, 385, 387, 263, 373, 380]
 MOUTH_IDX = [78, 81, 13, 308, 14, 178]
 HEAD_POSE_IDX = [1, 33, 263, 61, 291, 199]
 
-EAR_THRESHOLD = 0.25
-MAR_THRESHOLD = 0.6
-CONSEC_FRAMES = 15
+EAR_THRESHOLD = 0.22
+MAR_THRESHOLD = 0.75
+CONSEC_FRAMES = 40
 
 _drowsy_counter = 0
 _yawn_counter = 0
@@ -77,7 +77,7 @@ def estimate_head_pose(frame, landmarks):
     pitch = float(angles[0])
     yaw = float(angles[1])
 
-    status = "DISTRACTED" if abs(yaw) > 25 or abs(pitch) > 20 else "NORMAL"
+    status = "DISTRACTED" if abs(yaw) > 35 or abs(pitch) > 25 else "NORMAL"
     return pitch, yaw, status
 
 
@@ -99,7 +99,7 @@ def extract_mouth_region(frame, landmarks):
     return frame[y1:y2, x1:x2]
 
 
-def detect_driver_state(frame):
+def detect_driver_state(frame, ear_threshold=EAR_THRESHOLD, mar_threshold=MAR_THRESHOLD):
     global _drowsy_counter, _yawn_counter
 
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -128,8 +128,8 @@ def detect_driver_state(frame):
         ear = (left_ear + right_ear) / 2.0
         mar = calculate_mar(mouth)
 
-        _drowsy_counter = _drowsy_counter + 1 if ear < EAR_THRESHOLD else 0
-        _yawn_counter = _yawn_counter + 1 if mar > MAR_THRESHOLD else 0
+        _drowsy_counter = _drowsy_counter + 1 if ear < ear_threshold else 0
+        _yawn_counter = _yawn_counter + 1 if mar > mar_threshold else 0
 
         drowsy = _drowsy_counter >= CONSEC_FRAMES
         yawning = _yawn_counter >= CONSEC_FRAMES
