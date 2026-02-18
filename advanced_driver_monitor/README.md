@@ -59,10 +59,34 @@ To ensure stability, the project is tested and optimized for the following envir
 - **MAR (Mouth Aspect Ratio)**: Shows how wide your mouth is.
 - **Analysis Chart**: Watch the trends to see your baseline values.
 
-### 3. Calibration (Customizing Sensitivity)
-If the app is too sensitive or not sensitive enough, go to the **⚙️ Calibration** tab:
-- **EAR Slider**: Move left for stricter (harder to trigger) or right for sensitive.
-- **MAR Slider**: Move right for stricter (ignores talking) or left for sensitive.
+### 3. Comprehensive Calibration Guide
+Fine-tune the system in the **⚙️ Calibration** tab:
+
+#### 👁️ Drowsiness (EAR)
+- **Sensitive (0.25)**: Use if the camera is distant or in low light.
+- **Balanced (0.22)**: Default recommended setting.
+- **Strict (0.20)**: Best for very bright environments.
+
+#### 👄 Yawning (MAR)
+- **Sensitive (0.60)**: Triggers on deep breaths or heavy talking.
+- **Balanced (0.75)**: Optimal for detecting clear yawns.
+- **Strict (0.90+)**: Ignores speech and moderate mouth movements.
+
+#### ⏱️ Settings & Limits
+- **Detection Duration**: Number of seconds (e.g., 1.5s) an action must persist to trigger an alert.
+- **Alarm Limit**: Total 'Irregular Events' (up to 3000) allowed before the main persistent alarm triggers.
+
+### 4. Stopping the Alarm
+- Click **"🚨 Stop Alarm"** to silence the alert and reset the event counter. The camera will continue monitoring seamlessly.
+
+---
+
+## 🛡️ About the System
+This Professional Driver Monitoring System is an AI-powered safety assistant designed to combat fatigue and distraction. Using **MediaPipe's Face Mesh**, it analyzes 468 facial landmarks to ensure:
+1. **Fatigue Detection**: Real-time EAR and MAR monitoring.
+2. **Distraction Prevention**: Head-pose tracking to ensure road focus.
+3. **Safety First**: Redundant alerts and a critical system alarm.
+
 
 ---
 

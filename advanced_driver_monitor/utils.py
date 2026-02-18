@@ -99,7 +99,7 @@ def extract_mouth_region(frame, landmarks):
     return frame[y1:y2, x1:x2]
 
 
-def detect_driver_state(frame, ear_threshold=EAR_THRESHOLD, mar_threshold=MAR_THRESHOLD):
+def detect_driver_state(frame, ear_threshold=EAR_THRESHOLD, mar_threshold=MAR_THRESHOLD, consec_frames=CONSEC_FRAMES):
     global _drowsy_counter, _yawn_counter
 
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -131,8 +131,8 @@ def detect_driver_state(frame, ear_threshold=EAR_THRESHOLD, mar_threshold=MAR_TH
         _drowsy_counter = _drowsy_counter + 1 if ear < ear_threshold else 0
         _yawn_counter = _yawn_counter + 1 if mar > mar_threshold else 0
 
-        drowsy = _drowsy_counter >= CONSEC_FRAMES
-        yawning = _yawn_counter >= CONSEC_FRAMES
+        drowsy = _drowsy_counter >= consec_frames
+        yawning = _yawn_counter >= consec_frames
 
         _, _, head_pose_status = estimate_head_pose(frame, landmarks)
     else:
@@ -151,3 +151,9 @@ def detect_driver_state(frame, ear_threshold=EAR_THRESHOLD, mar_threshold=MAR_TH
         "irregular": bool(irregular),
         "counter": int(max(_drowsy_counter, _yawn_counter)),
     }
+
+
+def reset_counters():
+    global _drowsy_counter, _yawn_counter
+    _drowsy_counter = 0
+    _yawn_counter = 0
